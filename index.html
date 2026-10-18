@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdullah Akram</title>
+<link rel="icon" type="image/png" href="assets/icon.png">
+<style>
+  /* ===== WINDOWS 98 CORE RESET & FONTS ===== */
+  @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --win98-bg: #008080;
+    --win98-desktop: #008080;
+    --win98-gray: #c0c0c0;
+    --win98-dark: #808080;
+    --win98-darker: #404040;
+    --win98-black: #000000;
+    --win98-white: #ffffff;
+    --win98-navy: #000080;
+    --win98-title-active: #000080;
+    --win98-title-inactive: #808080;
+    --win98-title-text: #ffffff;
+    --win98-border-light: #ffffff;
+    --win98-border-dark: #808080;
+    --win98-border-darker: #404040;
+    --win98-highlight: #000080;
+    --win98-highlight-text: #ffffff;
+    --win98-button-face: #c0c0c0;
+    --win98-inset: #808080;
+    --pixel-font: 'VT323', 'Courier New', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--win98-desktop);
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        rgba(0,0,0,0.03) 0px,
+        rgba(0,0,0,0.03) 1px,
+        transparent 1px,
+        transparent 6px
+      );
+    font-family: var(--pixel-font);
+    font-size: 16px;
+    min-height: 100vh;
+    color: var(--win98-black);
+    overflow-x: hidden;
+  }
+
+  /* ===== TASKBAR ===== */
+  #taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 36px;
+    background: var(--win98-gray);
+    border-top: 2px solid var(--win98-white);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+    z-index: 1000;
+    box-shadow: inset 0 1px 0 var(--win98-white);
+  }
+
+  #start-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    font-family: var(--pixel-font);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+  #start-btn:active { border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker); }
+  #start-btn img { width: 20px; height: 20px; }
+
+  .taskbar-divider {
+    width: 2px;
+    height: 28px;
+    border-left: 1px solid var(--win98-dark);
+    border-right: 1px solid var(--win98-white);
+    margin: 0 2px;
+  }
+
+  .taskbar-btn {
+    padding: 2px 8px;
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    font-family: var(--pixel-font);
+    font-size: 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--win98-black);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .taskbar-btn:hover { background: #d0d0d0; }
+
+  #taskbar-clock {
+    margin-left: auto;
+    padding: 2px 8px;
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    font-family: var(--pixel-font);
+    font-size: 15px;
+    background: var(--win98-gray);
+    white-space: nowrap;
+  }
+
+  /* ===== DESKTOP ===== */
+  #desktop {
+    min-height: calc(100vh - 36px);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ===== WIN98 WINDOW ===== */
+  .win98-window {
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .win98-titlebar {
+    background: linear-gradient(to right, var(--win98-navy), #1084d0);
+    color: var(--win98-white);
+    padding: 3px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: bold;
+    user-select: none;
+    letter-spacing: 0.5px;
+  }
+
+  .win98-titlebar-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .win98-titlebar-icon {
+    width: 16px;
+    height: 16px;
+    background: var(--win98-gray);
+    border: 1px solid var(--win98-dark);
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .win98-titlebar-buttons {
+    display: flex;
+    gap: 2px;
+  }
+
+  .win98-titlebar-btn {
+    width: 16px;
+    height: 14px;
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--win98-black);
+    font-family: var(--pixel-font);
+    font-weight: bold;
+  }
+  .win98-titlebar-btn:active { border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker); }
+
+  .win98-menubar {
+    background: var(--win98-gray);
+    padding: 2px 4px;
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--win98-dark);
+    flex-wrap: wrap;
+  }
+
+  .win98-menu-item {
+    padding: 2px 8px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--win98-black);
+    display: inline-block;
+  }
+  .win98-menu-item:hover { background: var(--win98-navy); color: var(--win98-white); }
+  .win98-menu-item:focus { outline: 1px dotted var(--win98-black); }
+
+  .win98-content {
+    padding: 12px;
+    background: var(--win98-gray);
+  }
+
+  /* ===== INSET PANEL (looks sunken) ===== */
+  .win98-inset {
+    background: var(--win98-white);
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    padding: 8px;
+  }
+
+  /* ===== RAISED BUTTON ===== */
+  .win98-btn {
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    padding: 4px 16px;
+    font-family: var(--pixel-font);
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--win98-black);
+    text-decoration: none;
+    display: inline-block;
+  }
+  .win98-btn:hover { background: #d4d0c8; }
+  .win98-btn:active { border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker); }
+
+  /* ===== SECTION HEADER ===== */
+  .section-header {
+    background: var(--win98-navy);
+    color: var(--win98-white);
+    padding: 4px 10px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== HERO SECTION ===== */
+  #hero .win98-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  #hero-text { flex: 1; min-width: 260px; }
+
+  #hero-photo-frame {
+    width: 140px;
+    height: 140px;
+    border: 3px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--win98-white);
+  }
+  #hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+  .pixel-name {
+    font-size: 40px;
+    color: var(--win98-navy);
+    line-height: 1;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+
+  .pixel-title {
+    font-size: 18px;
+    color: var(--win98-darker);
+    margin-bottom: 12px;
+  }
+
+  .hero-status {
+    background: var(--win98-white);
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    padding: 6px 10px;
+    font-size: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-dot {
+    width: 10px; height: 10px;
+    background: #00ff00;
+    border-radius: 50%;
+    box-shadow: 0 0 4px #00ff00;
+    animation: blink 1.5s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-links { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* ===== ABOUT ===== */
+  .about-text {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--win98-black);
+  }
+
+  /* ===== SKILLS ===== */
+  .skills-category {
+    margin-bottom: 16px;
+  }
+
+  .skills-category-title {
+    background: var(--win98-navy);
+    color: var(--win98-white);
+    padding: 2px 8px;
+    font-size: 17px;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-chip {
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    padding: 3px 10px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: default;
+    white-space: nowrap;
+  }
+  .skill-chip:hover { background: var(--win98-navy); color: var(--win98-white); }
+
+  /* ===== EXPERIENCE ===== */
+  .exp-card {
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    background: var(--win98-white);
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .exp-role {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--win98-navy);
+  }
+
+  .exp-company {
+    font-size: 17px;
+    color: var(--win98-darker);
+  }
+
+  .exp-date {
+    font-size: 15px;
+    color: var(--win98-dark);
+    background: var(--win98-gray);
+    padding: 2px 6px;
+    border: 1px solid var(--win98-dark);
+    align-self: flex-start;
+  }
+
+  .exp-desc {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-top: 6px;
+    color: var(--win98-black);
+  }
+
+  .exp-skills {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .exp-skill-tag {
+    background: var(--win98-navy);
+    color: var(--win98-white);
+    font-size: 13px;
+    padding: 1px 6px;
+    border: 1px solid var(--win98-darker);
+  }
+
+  /* ===== PROJECTS - HORIZONTAL SCROLLABLE ===== */
+  .projects-scroll-container {
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--win98-dark) var(--win98-gray);
+  }
+  .projects-scroll-container::-webkit-scrollbar { height: 12px; }
+  .projects-scroll-container::-webkit-scrollbar-track {
+    background: var(--win98-gray);
+    border: 1px solid var(--win98-dark);
+  }
+  .projects-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+  }
+
+  .projects-horizontal {
+    display: flex;
+    gap: 12px;
+    min-width: max-content;
+    padding: 4px 2px;
+  }
+
+  .project-card {
+    width: 260px;
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    background: var(--win98-gray);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: none;
+  }
+
+  .project-card:hover .project-titlebar {
+    background: linear-gradient(to right, #1084d0, var(--win98-navy));
+  }
+
+  .project-titlebar {
+    background: linear-gradient(to right, var(--win98-navy), #1084d0);
+    color: var(--win98-white);
+    padding: 2px 6px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .project-icon-area {
+    background: var(--win98-white);
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    margin: 8px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-size: 48px;
+  }
+
+  .project-body { padding: 6px 8px 8px; }
+
+  .project-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--win98-navy);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: var(--win98-darker);
+    line-height: 1.4;
+    height: 52px;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .project-tags {
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+
+  .project-tag {
+    background: var(--win98-navy);
+    color: var(--win98-white);
+    font-size: 11px;
+    padding: 1px 5px;
+  }
+
+  .project-actions {
+    padding: 6px 8px 8px;
+    border-top: 1px solid var(--win98-dark);
+    display: flex;
+    gap: 6px;
+  }
+
+  /* ===== CERTIFICATIONS - HORIZONTAL ===== */
+  .certs-scroll-container {
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--win98-dark) var(--win98-gray);
+  }
+  .certs-scroll-container::-webkit-scrollbar { height: 12px; }
+  .certs-scroll-container::-webkit-scrollbar-track {
+    background: var(--win98-gray);
+    border: 1px solid var(--win98-dark);
+  }
+  .certs-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+  }
+
+  .certs-horizontal {
+    display: flex;
+    gap: 12px;
+    min-width: max-content;
+    padding: 4px 2px;
+  }
+
+  .cert-card {
+    width: 240px;
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    background: var(--win98-gray);
+    flex-shrink: 0;
+  }
+
+  .cert-header {
+    background: linear-gradient(to right, var(--win98-navy), #1084d0);
+    color: var(--win98-white);
+    padding: 3px 6px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .cert-body {
+    padding: 8px;
+    background: var(--win98-white);
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    margin: 6px;
+    min-height: 80px;
+  }
+
+  .cert-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--win98-navy);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .cert-org {
+    font-size: 13px;
+    color: var(--win98-darker);
+    font-weight: bold;
+  }
+
+  .cert-date {
+    font-size: 12px;
+    color: var(--win98-dark);
+    margin-top: 2px;
+  }
+
+  .cert-credential {
+    font-size: 11px;
+    color: var(--win98-dark);
+    padding: 0 8px 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ===== EDUCATION ===== */
+  .edu-card {
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    background: var(--win98-white);
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .edu-school {
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--win98-navy);
+  }
+
+  .edu-degree {
+    font-size: 16px;
+    color: var(--win98-darker);
+    margin: 2px 0;
+  }
+
+  .edu-meta {
+    font-size: 14px;
+    color: var(--win98-dark);
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+
+  /* ===== CONTACT ===== */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .contact-item {
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    background: var(--win98-white);
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--win98-black);
+    font-size: 16px;
+  }
+  .contact-item:hover { background: var(--win98-navy); color: var(--win98-white); }
+
+  .contact-icon { font-size: 20px; }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-overlay.active { display: flex; }
+
+  .modal-window {
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-titlebar {
+    background: linear-gradient(to right, var(--win98-navy), #1084d0);
+    color: var(--win98-white);
+    padding: 3px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+  }
+
+  .modal-close {
+    width: 16px; height: 14px;
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--win98-black);
+    font-family: var(--pixel-font);
+    font-weight: bold;
+  }
+  .modal-close:active { border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker); }
+
+  .modal-content { padding: 12px; }
+
+  /* ===== PROGRESS BAR (skills) ===== */
+  .progress-bar-container {
+    background: var(--win98-white);
+    border: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    height: 18px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--win98-navy);
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 8px,
+      rgba(255,255,255,0.15) 8px,
+      rgba(255,255,255,0.15) 12px
+    );
+    transition: width 1s ease;
+  }
+
+  /* ===== FOOTER ===== */
+  #footer {
+    background: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-white) var(--win98-darker) var(--win98-darker) var(--win98-white);
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    color: var(--win98-darker);
+    margin-bottom: 48px;
+  }
+
+  /* ===== STATUS BAR ===== */
+  .win98-statusbar {
+    background: var(--win98-gray);
+    border-top: 2px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    padding: 2px 8px;
+    font-size: 14px;
+    color: var(--win98-black);
+    display: flex;
+    gap: 12px;
+  }
+
+  .statusbar-item {
+    border: 1px solid;
+    border-color: var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);
+    padding: 0 6px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .pixel-name { font-size: 28px; }
+    .win98-content { padding: 8px; }
+    #hero .win98-content { flex-direction: column-reverse; }
+    #hero-photo-frame { width: 100px; height: 100px; }
+  }
+
+  /* ===== DESKTOP ICONS ===== */
+  #desktop-icons {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 10;
+  }
+
+  .desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    width: 64px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--win98-white);
+  }
+
+  .desktop-icon:hover .icon-label { background: var(--win98-navy); }
+
+  .icon-img {
+    font-size: 32px;
+    filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.5));
+  }
+
+  .icon-label {
+    font-size: 12px;
+    padding: 1px 2px;
+    text-shadow: 1px 1px 0 var(--win98-black);
+    line-height: 1.2;
+  }
+
+  /* ===== SCROLLING TICKER ===== */
+  .ticker-wrap {
+    background: var(--win98-navy);
+    color: var(--win98-white);
+    overflow: hidden;
+    padding: 4px 0;
+    border-top: 1px solid var(--win98-darker);
+    border-bottom: 1px solid var(--win98-white);
+    margin-bottom: 12px;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+    font-size: 16px;
+    padding-left: 100%;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* ===== SEPARATOR ===== */
+  .win98-separator {
+    height: 0;
+    border-top: 1px solid var(--win98-dark);
+    border-bottom: 1px solid var(--win98-white);
+    margin: 8px 0;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Desktop Icons -->
+<div id="desktop-icons">
+  <a class="desktop-icon" href="#hero">
+    <div class="icon-img">🖥️</div>
+    <div class="icon-label">My Portfolio</div>
+  </a>
+  <a class="desktop-icon" href="https://github.com/Abdullah-Akram04" target="_blank">
+    <div class="icon-img">💾</div>
+    <div class="icon-label">GitHub</div>
+  </a>
+  <a class="desktop-icon" href="https://linkedin.com/in/abdullah-akram-9b4107374" target="_blank">
+    <div class="icon-img">🌐</div>
+    <div class="icon-label">LinkedIn</div>
+  </a>
+</div>
+
+<!-- Desktop Content -->
+<div id="desktop">
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <span class="ticker-inner">
+      🛡️ Abdullah Akram | Cyber Security CEH Trainee @ NETSOL Technologies &nbsp;&nbsp;&nbsp;
+      💻 SOC Analyst Junior | Developer | Cybersecurity Enthusiast &nbsp;&nbsp;&nbsp;
+      🔒 SIEM • Splunk • Wireshark • Penetration Testing • Vulnerability Assessment &nbsp;&nbsp;&nbsp;
+      📧 github.com/Abdullah-Akram04 &nbsp;&nbsp;&nbsp;
+      🎓 CS Graduate | COMSATS University Islamabad &nbsp;&nbsp;&nbsp;
+    </span>
+  </div>
+
+  <!-- HERO WINDOW -->
+  <div class="win98-window" id="hero">
+    <div class="win98-titlebar">
+      <div class="win98-titlebar-left">
+        <div class="win98-titlebar-icon">👤</div>
+        <span>Abdullah Akram - Portfolio v1.0</span>
+      </div>
+      <div class="win98-titlebar-buttons">
+        <div class="win98-titlebar-btn">_</div>
+        <div class="win98-titlebar-btn">□</div>
+        <div class="win98-titlebar-btn">✕</div>
+      </div>
+    </div>
+    <div class="win98-menubar">
+      <a class="win98-menu-item" href="#about">About</a>
+      <a class="win98-menu-item" href="#skills">Skills</a>
+      <a class="win98-menu-item" href="#experience">Experience</a>
+      <a class="win98-menu-item" href="#projects">Projects</a>
+      <a class="win98-menu-item" href="#certifications">Certifications</a>
+      <a class="win98-menu-item" href="#education">Education</a>
+      <a class="win98-menu-item" href="#contact">Contact</a>
+    </div>
+    <div class="win98-content">
+      <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+        <div id="hero-photo-frame">
+          <img src="assets/profileImage.png" alt="Abdullah Akram" 
+               />
+        </div>
+        <div id="hero-text">
+          <div class="pixel-name">Abdullah Akram</div>
+          <div class="pixel-title">> CEH Trainee | SOC Analyst Jr. | Developer</div>
+          <div class="hero-status">
+            <div class="status-dot"></div>
+            <span>Currently @ NETSOL Technologies Inc. — Cybersecurity Apprenticeship</span>
+          </div>
+          <div class="hero-links">
+            <a class="win98-btn" href="https://github.com/Abdullah-Akram04" target="_blank">💾 GitHub</a>
+            <a class="win98-btn" href="https://linkedin.com/in/abdullah-akram-9b4107374" target="_blank">🌐 LinkedIn</a>
+            <a class="win98-btn" href="mailto:abdullahakram@example.com">📧 Email</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="win98-statusbar">
+      <span class="statusbar-item">📍 Lahore, Pakistan</span>
+      <span class="statusbar-item">🎓 CS Graduate</span>
+      <span class="statusbar-item">🛡️ Cybersecurity</span>
+    </div>
+  </div>
+
+  <!-- ABOUT WINDOW -->
+  <div class="win98-window" id="about">
+    <div class="win98-titlebar">
+      <div class="win98-titlebar-left">
+        <div class="win98-titlebar-icon">📄</div>
+        <span>About Me - Notepad</span>
+      </div>
+      <div class="win98-titlebar-buttons">
+        <div class="win98-titlebar-btn">_</div>
+        <div class="win98-titlebar-btn">□</div>
+        <div class="win98-titlebar-btn">✕</div>
+      </div>
+    </div>
+    <div class="win98-menubar">
+      <span class="win98-menu-item">File</span>
+      <span class="win98-menu-item">Edit</span>
+      <span class="win98-menu-item">View</span>
+    </div>
+    <div class="win98-content">
+      <div class="section-header">📄 ABOUT ME</div>
+      <div class="win98-inset">
+        <p class="about-text">
+          I am a passionate Computer Science graduate with a specialization in cybersecurity,
+          currently serving as a <strong>Cyber Security CEH Trainee</strong> at
+          <strong>NETSOL Technologies Inc.</strong> through the prestigious NIAI apprenticeship
+          program in Lahore, Pakistan.
+        </p>
+        <br>
+        <p class="about-text">
+          As a cybersecurity enthusiast and aspiring SOC Analyst, I bring hands-on experience
+          in security monitoring, SIEM tools, vulnerability assessment, and incident response
+          from my internship at <strong>DevelopersHub Corporation</strong>. I also have a
+          strong development background including Flutter/Dart mobile apps, full-stack web
+          projects, and Gen-AI applications.
+        </p>
+        <br>
+        <p class="about-text">
+          My long-term mission is to work at the intersection of <strong>AI Security</strong>
+          and threat intelligence — protecting systems from the next generation of cyber threats.
+        </p>
+      </div>
+    </div>
+    <div class="win98-statusbar">
+      <span class="statusbar-item">Ln 1, Col 1</span>
+      <span class="statusbar-item">Ready</span>
+    </div>
+  </div>
+
+  <!-- SKILLS WINDOW -->
+  <div class="win98-window" id="skills">
+    <div class="win98-titlebar">
+      <div class="win98-titlebar-left">
+        <div class="win98-titlebar-icon">⚙️</div>
+        <span>Skills - System Properties</span>
+      </div>
+      <div class="win98-titlebar-buttons">
+        <div class="win98-titlebar-btn">_</div>
+        <div class="win98-titlebar-btn">□</div>
+        <div class="win98-titlebar-btn">✕</div>
+      </div>
+    </div>
+    <div class="win98-content">
+      <div class="section-header">⚙️ SKILLS & TECHNOLOGIES</div>
+
+      <!-- Cybersecurity -->
+      <div class="skills-category">
+        <div class="skills-category-title">🛡️ Cybersecurity</div>
+        <div style="display:grid;gap:6px;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">SIEM / Splunk</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:80%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">80%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">Wireshark</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:75%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">75%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">Vulnerability Assessment</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:75%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">75%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">Penetration Testing</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:65%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">65%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">Wazuh / IDS/IPS</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:70%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">70%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">Microsoft Defender / Sentinel</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:70%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">70%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">CEH / Ethical Hacking</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:72%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">72%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="win98-separator"></div>
+
+      <!-- Development -->
+      <div class="skills-category">
+        <div class="skills-category-title">💻 Development</div>
+        <div style="display:grid;gap:6px;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">Python</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:82%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">82%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">JavaScript / MERN</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:78%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">78%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">Flutter / Dart</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:70%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">70%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">PHP / MySQL</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:68%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">68%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">Gen-AI / RAG / LLM</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:65%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">65%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:15px;">
+            <span style="width:160px;white-space:nowrap;">C# / C++</span>
+            <div class="progress-bar-container" style="flex:1;">
+              <div class="progress-bar-fill" style="width:60%;"></div>
+            </div>
+            <span style="width:30px;text-align:right;">60%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="win98-separator"></div>
+
+      <!-- Tools -->
+      <div class="skills-category">
+        <div class="skills-category-title">🔧 Tools & Platforms</div>
+        <div class="skills-grid">
+          <span class="skill-chip">🐧 Kali Linux</span>
+          <span class="skill-chip">🐧 Ubuntu / KVM</span>
+          <span class="skill-chip">📊 Splunk Enterprise</span>
+          <span class="skill-chip">🌐 Wireshark</span>
+          <span class="skill-chip">🔍 Nmap</span>
+          <span class="skill-chip">🛡️ Wazuh</span>
+          <span class="skill-chip">☁️ Microsoft Sentinel</span>
+          <span class="skill-chip">🛡️ MS Defender XDR</span>
+          <span class="skill-chip">🐙 Git / GitHub</span>
+          <span class="skill-chip">📮 Postman</span>
+          <span class="skill-chip">🔥 Firebase</span>
+          <span class="skill-chip">🐚 Bash Scripting</span>
+          <span class="skill-chip">📦 VS Code</span>
+          <span class="skill-chip">🌐 Burp Suite</span>
+          <span class="skill-chip">🤖 OpenAI API</span>
+          <span class="skill-chip">🧠 LangChain / RAG</span>
+        </div>
+      </div>
+    </div>
+    <div class="win98-statusbar">
+      <span class="statusbar-item">22 Skills Loaded</span>
+      <span class="statusbar-item">System: OK</span>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE WINDOW -->
+  <div class="win98-window" id="experience">
+    <div class="win98-titlebar">
+      <div class="win98-titlebar-left">
+        <div class="win98-titlebar-icon">💼</div>
+        <span>Work Experience - My Computer</span>
+      </div>
+      <div class="win98-titlebar-buttons">
+        <div class="win98-titlebar-btn">_</div>
+        <div class="win98-titlebar-btn">□</div>
+        <div class="win98-titlebar-btn">✕</div>
+      </div>
+    </div>
+    <div class="win98-content">
+      <div class="section-header">💼 WORK EXPERIENCE</div>
+
+      <!-- NETSOL -->
+      <div class="exp-card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">🛡️ Cyber Security – CEH Trainee</div>
+            <div class="exp-company">NETSOL Technologies Inc. · Apprenticeship (NIAI)</div>
+          </div>
+          <div class="exp-date">Sep 2026 – Present · 2 mos</div>
+        </div>
+        <div style="font-size:14px;color:var(--win98-dark);">📍 Lahore, Punjab, Pakistan · On-site</div>
+        <div class="exp-desc">
+          Currently undergoing a structured cybersecurity apprenticeship through the NIAI program at NETSOL Technologies. 
+          Gaining hands-on training in ethical hacking, CEH methodologies, and enterprise security operations. 
+          Applying analytical skills and critical thinking to real-world security scenarios.
+        </div>
+        <div class="exp-skills">
+          <span class="exp-skill-tag">CEH</span>
+          <span class="exp-skill-tag">Ethical Hacking</span>
+          <span class="exp-skill-tag">Security Operations</span>
+          <span class="exp-skill-tag">Analytical Skills</span>
+          <span class="exp-skill-tag">Critical Thinking</span>
+          <span class="exp-skill-tag">Network Security</span>
+        </div>
+      </div>
+
+      <!-- DevelopersHub -->
+      <div class="exp-card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">🔍 Cyber Security Intern</div>
+            <div class="exp-company">DevelopersHub Corporation · Internship</div>
+          </div>
+          <div class="exp-date">Jun 2025 – Jul 2025 · 2 mos</div>
+        </div>
+        <div style="font-size:14px;color:var(--win98-dark);">📍 Islamabad, Pakistan · Remote</div>
+        <div class="exp-desc">
+          Worked as a Cybersecurity Intern focused on Security Operations Center (SOC) activities. 
+          Conducted security monitoring, vulnerability assessments, and technical reporting. 
+          Assisted in incident response activities and implemented security measures to mitigate threats.
+        </div>
+        <div class="exp-skills">
+          <span class="exp-skill-tag">SOC Operations</span>
+          <span class="exp-skill-tag">Security Monitoring</span>
+          <span class="exp-skill-tag">Vulnerability Assessment</span>
+          <span class="exp-skill-tag">SIEM Tools</span>
+          <span class="exp-skill-tag">Incident Response</span>
+          <span class="exp-skill-tag">Technical Reporting</span>
+        </div>
+      </div>
+
+      <!-- Mavaricks -->
+      <div class="exp-card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">📈 Business Developer</div>
+            <div class="exp-company">Mavaricks United · Lahore, Pakistan</div>
+          </div>
+          <div class="exp-date">~4 months</div>
+        </div>
+        <div class="exp-desc">
+          Worked as a Business Developer responsible for generating business leads, managing client relationships, 
+          and driving sales. Contributed to business growth strategies and market expansion efforts.
+        </div>
+        <div class="exp-skills">
+          <span class="exp-skill-tag">Business Development</span>
+          <span class="exp-skill-tag">Lead Generation</span>
+          <span class="exp-skill-tag">Sales</span>
+          <span class="exp-skill-tag">Client Relations</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="win98-statusbar">
+      <span class="statusbar-item">3 Items</span>
+      <span class="statusbar-item">Ready</span>
+    </div>
+  </div>
+
+  <!-- PROJECTS WINDOW -->
+  <div class="win98-window" id="projects">
+    <div class="win98-titlebar">
+      <div class="win98-titlebar-left">
+        <div class="win98-titlebar-icon">📁</div>
+        <span>Projects - File Manager</span>
+      </div>
+      <div class="win98-titlebar-buttons">
+        <div class="win98-titlebar-btn">_</div>
+        <div class="win98-titlebar-btn">□</div>
+        <div class="win98-titlebar-btn">✕</div>
+      </div>
+    </div>
+    <div class="win98-menubar">
+      <span class="win98-menu-item">File</span>
+      <span class="win98-menu-item">View</span>
+      <span class="win98-menu-item">⬅ Scroll to see all projects ➡</span>
+    </div>
+    <div class="win98-content">
+      <div class="section-header">📁 PROJECTS</div>
+      <div class="projects-scroll-container">
+        <div class="projects-horizontal">
+
+          <!-- Gen-AI RAG QA Bot -->
+          <div class="project-card" onclick="openModal('modal-genai-rag')">
+            <div class="project-titlebar">🤖 Gen-AI-RAG-QA-bot</div>
+            <div class="project-icon-area">🤖</div>
+            <div class="project-body">
+              <div class="project-name">Gen AI RAG QA Bot</div>
+              <div class="project-desc">Gen AI application using RAG — loads documents and answers questions from them intelligently.</div>
+              <div class="project-tags">
+                <span class="project-tag">Python</span>
+                <span class="project-tag">RAG</span>
+                <span class="project-tag">LLM</span>
+                <span class="project-tag">Gen-AI</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/Gen-AI-RAG-QA-bot" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-genai-rag')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- GenAI Chatbot -->
+          <div class="project-card" onclick="openModal('modal-genai-chatbot')">
+            <div class="project-titlebar">💬 GenAI-chatbot</div>
+            <div class="project-icon-area">💬</div>
+            <div class="project-body">
+              <div class="project-name">GenAI Chatbot</div>
+              <div class="project-desc">AI-powered chatbot built and deployed using OpenAI API with a complete chat interface.</div>
+              <div class="project-tags">
+                <span class="project-tag">OpenAI</span>
+                <span class="project-tag">Gen-AI</span>
+                <span class="project-tag">Deploy</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/GenAI-chatbot" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-genai-chatbot')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- Splunk SIEM Lab -->
+          <div class="project-card" onclick="openModal('modal-splunk')">
+            <div class="project-titlebar">🛡️ splunk-siem-lab</div>
+            <div class="project-icon-area">🛡️</div>
+            <div class="project-body">
+              <div class="project-name">Splunk SIEM Lab</div>
+              <div class="project-desc">Splunk Enterprise setup & SIEM lab on Ubuntu Linux. Includes KVM VM setup, configs, and SOC practice.</div>
+              <div class="project-tags">
+                <span class="project-tag">Splunk</span>
+                <span class="project-tag">SIEM</span>
+                <span class="project-tag">Linux</span>
+                <span class="project-tag">SOC</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/splunk-siem-lab" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-splunk')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- Student Management -->
+          <div class="project-card" onclick="openModal('modal-student')">
+            <div class="project-titlebar">🏫 student-management</div>
+            <div class="project-icon-area">🏫</div>
+            <div class="project-body">
+              <div class="project-name">Student Management System</div>
+              <div class="project-desc">Web app to manage student records, attendance, grades, and report generation.</div>
+              <div class="project-tags">
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">Web App</span>
+                <span class="project-tag">⭐2</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/student-management-system" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-student')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- Library Management -->
+          <div class="project-card" onclick="openModal('modal-library')">
+            <div class="project-titlebar">📚 library-management</div>
+            <div class="project-icon-area">📚</div>
+            <div class="project-body">
+              <div class="project-name">Library Management System</div>
+              <div class="project-desc">Automates library operations: books, lending/returns, member records, and reports.</div>
+              <div class="project-tags">
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">Web App</span>
+                <span class="project-tag">⭐2</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/library-management" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-library')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- KMP Pharmacy -->
+          <div class="project-card" onclick="openModal('modal-pharmacy')">
+            <div class="project-titlebar">💊 KMP-Pharmacy</div>
+            <div class="project-icon-area">💊</div>
+            <div class="project-body">
+              <div class="project-name">KMP Pharmacy System</div>
+              <div class="project-desc">Pharmacy management: inventory, medicine stock, prescriptions, and report generation.</div>
+              <div class="project-tags">
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">Web App</span>
+                <span class="project-tag">⭐2</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/KMP-Pharmacy" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-pharmacy')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- Job Portal -->
+          <div class="project-card" onclick="openModal('modal-jobportal')">
+            <div class="project-titlebar">💼 job-portal</div>
+            <div class="project-icon-area">💼</div>
+            <div class="project-body">
+              <div class="project-name">Job Portal</div>
+              <div class="project-desc">Full-stack job portal with listings, authentication, profiles, and application tracking.</div>
+              <div class="project-tags">
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">Full-Stack</span>
+                <span class="project-tag">⭐2</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/job-portal" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-jobportal')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- E-Commerce -->
+          <div class="project-card" onclick="openModal('modal-ecommerce')">
+            <div class="project-titlebar">🛒 Evershop-e-commerce</div>
+            <div class="project-icon-area">🛒</div>
+            <div class="project-body">
+              <div class="project-name">Evershop E-Commerce</div>
+              <div class="project-desc">Modern e-commerce web app with product management, shopping experience, and scalable architecture.</div>
+              <div class="project-tags">
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">E-Commerce</span>
+                <span class="project-tag">⭐2</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/Evershop-e-commerce" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-ecommerce')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- Photography Services -->
+          <div class="project-card" onclick="openModal('modal-photo')">
+            <div class="project-titlebar">📸 photography-services</div>
+            <div class="project-icon-area">📸</div>
+            <div class="project-body">
+              <div class="project-name">Photography Services</div>
+              <div class="project-desc">Responsive web project showcasing professional photography services, portfolios, and contact details.</div>
+              <div class="project-tags">
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">Responsive</span>
+                <span class="project-tag">⭐2</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/photography-services" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-photo')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- Home Rental -->
+          <div class="project-card" onclick="openModal('modal-rental')">
+            <div class="project-titlebar">🏠 Home-Rental-System</div>
+            <div class="project-icon-area">🏠</div>
+            <div class="project-body">
+              <div class="project-name">Home Rental System</div>
+              <div class="project-desc">PHP & MySQL based rental system with secure login, admin panel, property listings, and booking management.</div>
+              <div class="project-tags">
+                <span class="project-tag">PHP</span>
+                <span class="project-tag">MySQL</span>
+                <span class="project-tag">Admin Panel</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/Home-Rental-System-Using-PHP-AND-MySQL-OR-Login-Admin" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-rental')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- Aithena LMS -->
+          <div class="project-card" onclick="openModal('modal-lms')">
+            <div class="project-titlebar">📖 Aithena-LMS</div>
+            <div class="project-icon-area">📖</div>
+            <div class="project-body">
+              <div class="project-name">Aithena LMS</div>
+              <div class="project-desc">Web-based Learning Management System for courses, users, and learning content with scalable architecture.</div>
+              <div class="project-tags">
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">LMS</span>
+                <span class="project-tag">⭐2</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/Aithena-LMS" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-lms')">📄 Info</button>
+            </div>
+          </div>
+
+          <!-- MERN Student -->
+          <div class="project-card" onclick="openModal('modal-mern')">
+            <div class="project-titlebar">⚛️ mern-student-mgmt</div>
+            <div class="project-icon-area">⚛️</div>
+            <div class="project-body">
+              <div class="project-name">MERN Student System</div>
+              <div class="project-desc">Full-stack MERN stack student management system with modern React frontend and Node.js backend.</div>
+              <div class="project-tags">
+                <span class="project-tag">MongoDB</span>
+                <span class="project-tag">Express</span>
+                <span class="project-tag">React</span>
+                <span class="project-tag">Node.js</span>
+              </div>
+            </div>
+            <div class="project-actions">
+              <a class="win98-btn" href="https://github.com/Abdullah-Akram04/mern-student-management-system" target="_blank" onclick="event.stopPropagation()">💾 Code</a>
+              <button class="win98-btn" onclick="event.stopPropagation();openModal('modal-mern')">📄 Info</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="win98-statusbar">
+      <span class="statusbar-item">12 Projects</span>
+      <span class="statusbar-item">⬅ Scroll ➡</span>
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS WINDOW -->
+  <div class="win98-window" id="certifications">
+    <div class="win98-titlebar">
+      <div class="win98-titlebar-left">
+        <div class="win98-titlebar-icon">🏅</div>
+        <span>Certifications - Certificate Manager</span>
+      </div>
+      <div class="win98-titlebar-buttons">
+        <div class="win98-titlebar-btn">_</div>
+        <div class="win98-titlebar-btn">□</div>
+        <div class="win98-titlebar-btn">✕</div>
+      </div>
+    </div>
+    <div class="win98-menubar">
+      <span class="win98-menu-item">File</span>
+      <span class="win98-menu-item">View</span>
+      <span class="win98-menu-item">⬅ Scroll to see all certifications ➡</span>
+    </div>
+    <div class="win98-content">
+      <div class="section-header">🏅 CERTIFICATIONS</div>
+      <div class="certs-scroll-container">
+        <div class="certs-horizontal">
+
+          <div class="cert-card">
+            <div class="cert-header">🛡️ Ethical Hacking</div>
+            <div class="cert-body">
+              <div class="cert-title">Ethical Hacking - Pearson Cert Prep Specialization</div>
+              <div class="cert-org">Pearson</div>
+              <div class="cert-date">📅 2025</div>
+            </div>
+            <div class="cert-credential">CEH Preparation Specialization</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">📊 Splunk</div>
+            <div class="cert-body">
+              <div class="cert-title">Splunk Search Expert Specialization</div>
+              <div class="cert-org">Splunk</div>
+              <div class="cert-date">📅 2025</div>
+            </div>
+            <div class="cert-credential">Search Expert - SIEM</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">🐍 Python</div>
+            <div class="cert-body">
+              <div class="cert-title">Python for Everybody Specialization</div>
+              <div class="cert-org">Coursera / University of Michigan</div>
+              <div class="cert-date">📅 2024</div>
+            </div>
+            <div class="cert-credential">Python Programming Specialization</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">🔓 Web Pentesting</div>
+            <div class="cert-body">
+              <div class="cert-title">Hands-On Web App Pentesting</div>
+              <div class="cert-org">Cybersecurity Platform</div>
+              <div class="cert-date">📅 2025</div>
+            </div>
+            <div class="cert-credential">Web Application Penetration Testing</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">🤖 GenAI Chatbots</div>
+            <div class="cert-body">
+              <div class="cert-title">GenAI Chatbots: Create & Deploy OpenAI Chatbots</div>
+              <div class="cert-org">Coursera</div>
+              <div class="cert-date">📅 2025</div>
+            </div>
+            <div class="cert-credential">OpenAI API / Deployment</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">🛡️ MS Defender XDR</div>
+            <div class="cert-body">
+              <div class="cert-title">Microsoft Defender XDR for Security Analysts</div>
+              <div class="cert-org">Microsoft</div>
+              <div class="cert-date">📅 2025</div>
+            </div>
+            <div class="cert-credential">Defender XDR - Security Analyst</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">☁️ Cybersecurity Solutions</div>
+            <div class="cert-body">
+              <div class="cert-title">Cybersecurity Solutions and Microsoft Defender</div>
+              <div class="cert-org">Microsoft</div>
+              <div class="cert-date">📅 2025</div>
+            </div>
+            <div class="cert-credential">Microsoft Defender Suite</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">🔵 MS Sentinel</div>
+            <div class="cert-body">
+              <div class="cert-title">Microsoft Sentinel: Complete Azure Introduction</div>
+              <div class="cert-org">Microsoft / Azure</div>
+              <div class="cert-date">📅 2025</div>
+            </div>
+            <div class="cert-credential">Azure Sentinel SIEM</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">📊 SIEM Intro</div>
+            <div class="cert-body">
+              <div class="cert-title">Introduction to SIEM (Splunk)</div>
+              <div class="cert-org">Splunk / Coursera</div>
+              <div class="cert-date">📅 2024</div>
+            </div>
+            <div class="cert-credential">SIEM Fundamentals - Splunk</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">🌐 Google Cybersecurity</div>
+            <div class="cert-body">
+              <div class="cert-title">Google Cybersecurity Professional Certificate</div>
+              <div class="cert-org">Google</div>
+              <div class="cert-date">📅 March 2026</div>
+            </div>
+            <div class="cert-credential">Credential: M9PA86HW7V5K</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">🔒 ISC2 CC</div>
+            <div class="cert-body">
+              <div class="cert-title">ISC2 Certified in Cybersecurity (CC)</div>
+              <div class="cert-org">ISC2</div>
+              <div class="cert-date">📅 Feb 2026</div>
+            </div>
+            <div class="cert-credential">ID: ad31edc6-0616-43fe</div>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-header">💳 Mastercard</div>
+            <div class="cert-body">
+              <div class="cert-title">Mastercard Cybersecurity Virtual Experience</div>
+              <div class="cert-org">Forage</div>
+              <div class="cert-date">📅 March 2026</div>
+            </div>
+            <div class="cert-credential">ID: snJLeZL8R5jyFNKBY</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="win98-statusbar">
+      <span class="statusbar-item">12 Certificates</span>
+      <span class="statusbar-item">⬅ Scroll ➡</span>
+    </div>
+  </div>
+
+  <!-- EDUCATION WINDOW -->
+  <div class="win98-window" id="education">
+    <div class="win98-titlebar">
+      <div class="win98-titlebar-left">
+        <div class="win98-titlebar-icon">🎓</div>
+        <span>Education - Academic Records</span>
+      </div>
+      <div class="win98-titlebar-buttons">
+        <div class="win98-titlebar-btn">_</div>
+        <div class="win98-titlebar-btn">□</div>
+        <div class="win98-titlebar-btn">✕</div>
+      </div>
+    </div>
+    <div class="win98-content">
+      <div class="section-header">🎓 EDUCATION</div>
+      <div class="edu-card">
+        <div class="edu-school">🏛️ COMSATS University Islamabad, Vehari Campus</div>
+        <div class="edu-degree">Bachelor of Science – BS (Computer Science)</div>
+        <div class="edu-meta">
+          <span>📅 Feb 2023 – June 2027</span>
+          <span>📊 CGPA: 2.9</span>
+        </div>
+        <div class="about-text" style="font-size:14px;">
+          Strong foundation in programming, software development, and computer science. 
+          Coursework: Data Structures, Algorithms, OOP, DBMS, Web Development, Computer Networks, 
+          Information Security, and Software Engineering. Active in workshops and technical events.
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-school">🏫 Punjab Group of Colleges</div>
+        <div class="edu-degree">Intermediate – FSc (Pre-Engineering): Physics, Chemistry, Mathematics</div>
+        <div class="edu-meta">
+          <span>📅 Sept 2020 – Aug 2023</span>
+          <span>📊 Grade: 70%</span>
+        </div>
+        <div class="about-text" style="font-size:14px;">
+          Completed intermediate education under BISE board. Developed critical thinking 
+          and problem-solving skills through active participation in academic and extracurricular activities.
+        </div>
+      </div>
+    </div>
+    <div class="win98-statusbar">
+      <span class="statusbar-item">2 Records</span>
+      <span class="statusbar-item">Ready</span>
+    </div>
+  </div>
+
+  <!-- CONTACT WINDOW -->
+  <div class="win98-window" id="contact">
+    <div class="win98-titlebar">
+      <div class="win98-titlebar-left">
+        <div class="win98-titlebar-icon">📧</div>
+        <span>Contact – Address Book</span>
+      </div>
+      <div class="win98-titlebar-buttons">
+        <div class="win98-titlebar-btn">_</div>
+        <div class="win98-titlebar-btn">□</div>
+        <div class="win98-titlebar-btn">✕</div>
+      </div>
+    </div>
+    <div class="win98-content">
+      <div class="section-header">📧 CONTACT ME</div>
+      <div class="contact-grid">
+        <a class="contact-item" href="https://github.com/Abdullah-Akram04" target="_blank">
+          <span class="contact-icon">💾</span>
+          <div>
+            <div style="font-weight:bold;">GitHub</div>
+            <div style="font-size:13px;">github.com/Abdullah-Akram04</div>
+          </div>
+        </a>
+        <a class="contact-item" href="https://linkedin.com/in/abdullah-akram-9b4107374" target="_blank">
+          <span class="contact-icon">🌐</span>
+          <div>
+            <div style="font-weight:bold;">LinkedIn</div>
+            <div style="font-size:13px;">linkedin.com/in/abdullah-akram</div>
+          </div>
+        </a>
+        <div class="contact-item">
+          <span class="contact-icon">📍</span>
+          <div>
+            <div style="font-weight:bold;">Location</div>
+            <div style="font-size:13px;">Lahore / Vehari, Pakistan</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">🛡️</span>
+          <div>
+            <div style="font-weight:bold;">Current Role</div>
+            <div style="font-size:13px;">CEH Trainee @ NETSOL Technologies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="win98-statusbar">
+      <span class="statusbar-item">4 Contact Methods</span>
+      <span class="statusbar-item">Open for Opportunities</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div id="footer">
+    <div>© 2026 Abdullah Akram &nbsp;|&nbsp; Cybersecurity · Development · AI</div>
+  </div>
+
+</div><!-- /desktop -->
+
+<!-- TASKBAR -->
+<div id="taskbar">
+  <button id="start-btn">
+    <span>🪟</span>
+    <span>Start</span>
+  </button>
+  <div class="taskbar-divider"></div>
+  <a class="taskbar-btn" href="#about">👤 About</a>
+  <a class="taskbar-btn" href="#skills">⚙️ Skills</a>
+  <a class="taskbar-btn" href="#experience">💼 Experience</a>
+  <a class="taskbar-btn" href="#projects">📁 Projects</a>
+  <a class="taskbar-btn" href="#certifications">🏅 Certs</a>
+  <a class="taskbar-btn" href="#education">🎓 Education</a>
+  <a class="taskbar-btn" href="#contact">📧 Contact</a>
+  <div id="taskbar-clock">00:00</div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-genai-rag" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar">
+      <span>🤖 Gen-AI-RAG-QA-bot – Properties</span>
+      <div class="modal-close" onclick="closeModal(document.getElementById('modal-genai-rag'))">✕</div>
+    </div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">🤖</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">Gen-AI-RAG-QA-bot</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">
+        A Gen AI application built using Retrieval-Augmented Generation (RAG) architecture. 
+        The chatbot loads documents and uses them as context to answer user queries intelligently, 
+        combining the power of LLMs with document retrieval for accurate, grounded responses.
+      </div>
+      <div style="margin:8px 0;">
+        <span style="font-weight:bold;">Technologies: </span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">RAG</span>
+        <span class="project-tag">LangChain</span>
+        <span class="project-tag">OpenAI</span>
+        <span class="project-tag">Vector DB</span>
+      </div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/Gen-AI-RAG-QA-bot" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-genai-chatbot" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar">
+      <span>💬 GenAI-chatbot – Properties</span>
+      <div class="modal-close" onclick="closeModal(document.getElementById('modal-genai-chatbot'))">✕</div>
+    </div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">💬</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">GenAI Chatbot</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">
+        An AI-powered chatbot created and deployed using OpenAI's API. Features a complete 
+        chat interface with conversation history, real-time responses, and a clean user experience. 
+        Demonstrates end-to-end GenAI application development and deployment.
+      </div>
+      <div style="margin:8px 0;">
+        <span class="project-tag">OpenAI API</span>
+        <span class="project-tag">Gen-AI</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Deployment</span>
+      </div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/GenAI-chatbot" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-splunk" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar">
+      <span>🛡️ Splunk SIEM Lab – Properties</span>
+      <div class="modal-close" onclick="closeModal(document.getElementById('modal-splunk'))">✕</div>
+    </div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">🛡️</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">Splunk SIEM Lab</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">
+        A complete Splunk Enterprise setup and SIEM lab on Ubuntu Linux. Includes detailed 
+        installation guides, configurations, and hands-on SOC practice exercises. 
+        Features virtual machine setup using KVM on Ubuntu Linux for an isolated security lab environment.
+      </div>
+      <div style="margin:8px 0;">
+        <span class="project-tag">Splunk Enterprise</span>
+        <span class="project-tag">SIEM</span>
+        <span class="project-tag">Ubuntu Linux</span>
+        <span class="project-tag">KVM</span>
+        <span class="project-tag">SOC</span>
+      </div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/splunk-siem-lab" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-student" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar">
+      <span>🏫 Student Management – Properties</span>
+      <div class="modal-close" onclick="closeModal(document.getElementById('modal-student'))">✕</div>
+    </div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">🏫</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">Student Management System</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">
+        A web-based application designed to streamline academic administration. Allows users to manage student records, track attendance, monitor grades, and generate reports for effective educational management.
+      </div>
+      <div style="margin:8px 0;"><span class="project-tag">JavaScript</span><span class="project-tag">Web App</span><span class="project-tag">Admin</span></div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/student-management-system" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-library" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar"><span>📚 Library Management – Properties</span><div class="modal-close" onclick="closeModal(document.getElementById('modal-library'))">✕</div></div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">📚</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">Library Management System</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">Web-based system to automate library operations — books, lending/returns, member records, and reporting.</div>
+      <div style="margin:8px 0;"><span class="project-tag">JavaScript</span><span class="project-tag">Web App</span></div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/library-management" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-pharmacy" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar"><span>💊 KMP Pharmacy – Properties</span><div class="modal-close" onclick="closeModal(document.getElementById('modal-pharmacy'))">✕</div></div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">💊</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">KMP Pharmacy System</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">Pharmacy management system: inventory tracking, medicine stock, prescription handling, and report generation for streamlined pharmacy operations.</div>
+      <div style="margin:8px 0;"><span class="project-tag">JavaScript</span><span class="project-tag">Web App</span><span class="project-tag">Pharmacy</span></div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/KMP-Pharmacy" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-jobportal" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar"><span>💼 Job Portal – Properties</span><div class="modal-close" onclick="closeModal(document.getElementById('modal-jobportal'))">✕</div></div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">💼</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">Job Portal</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">Full-stack web application for job searching and recruitment: job listings, user authentication, profile management, and application tracking.</div>
+      <div style="margin:8px 0;"><span class="project-tag">JavaScript</span><span class="project-tag">Full-Stack</span><span class="project-tag">Auth</span></div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/job-portal" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ecommerce" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar"><span>🛒 Evershop – Properties</span><div class="modal-close" onclick="closeModal(document.getElementById('modal-ecommerce'))">✕</div></div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">🛒</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">Evershop E-Commerce</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">Modern e-commerce web application delivering seamless online shopping with product management, user-friendly navigation, and scalable architecture.</div>
+      <div style="margin:8px 0;"><span class="project-tag">JavaScript</span><span class="project-tag">E-Commerce</span><span class="project-tag">Scalable</span></div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/Evershop-e-commerce" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-photo" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar"><span>📸 Photography – Properties</span><div class="modal-close" onclick="closeModal(document.getElementById('modal-photo'))">✕</div></div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">📸</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">Photography Services</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">Modern and responsive web project showcasing professional photography services: portfolio gallery, service offerings, and contact details. ⭐2 stars.</div>
+      <div style="margin:8px 0;"><span class="project-tag">JavaScript</span><span class="project-tag">Responsive</span><span class="project-tag">Portfolio</span></div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/photography-services" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-rental" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar"><span>🏠 Home Rental – Properties</span><div class="modal-close" onclick="closeModal(document.getElementById('modal-rental'))">✕</div></div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">🏠</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">Home Rental System</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">A PHP and MySQL-based home rental system with secure login, admin panel functionalities, property listings, user authentication, and rental bookings management.</div>
+      <div style="margin:8px 0;"><span class="project-tag">PHP</span><span class="project-tag">MySQL</span><span class="project-tag">Admin</span><span class="project-tag">Auth</span></div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/Home-Rental-System-Using-PHP-AND-MySQL-OR-Login-Admin" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-lms" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar"><span>📖 Aithena LMS – Properties</span><div class="modal-close" onclick="closeModal(document.getElementById('modal-lms'))">✕</div></div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">📖</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">Aithena LMS</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">Web-based Learning Management System for managing courses, users, and learning content. Focuses on scalability, usability, and organized content delivery.</div>
+      <div style="margin:8px 0;"><span class="project-tag">JavaScript</span><span class="project-tag">LMS</span><span class="project-tag">Education</span></div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/Aithena-LMS" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-mern" onclick="closeModal(this)">
+  <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-titlebar"><span>⚛️ MERN Student – Properties</span><div class="modal-close" onclick="closeModal(document.getElementById('modal-mern'))">✕</div></div>
+    <div class="modal-content">
+      <div style="font-size:48px;text-align:center;padding:16px;background:var(--win98-white);border:2px solid;border-color:var(--win98-darker) var(--win98-white) var(--win98-white) var(--win98-darker);margin-bottom:12px;">⚛️</div>
+      <div style="font-size:20px;font-weight:bold;color:var(--win98-navy);margin-bottom:8px;">MERN Student Management System</div>
+      <div class="win98-separator"></div>
+      <div style="font-size:15px;line-height:1.6;margin:8px 0;">Full-stack student management system built on the MERN stack (MongoDB, Express, React, Node.js). Modern React frontend with a robust Node.js backend for complete academic management.</div>
+      <div style="margin:8px 0;"><span class="project-tag">MongoDB</span><span class="project-tag">Express</span><span class="project-tag">React</span><span class="project-tag">Node.js</span></div>
+      <div class="win98-separator"></div>
+      <a class="win98-btn" href="https://github.com/Abdullah-Akram04/mern-student-management-system" target="_blank">💾 View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Clock
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('taskbar-clock').textContent = h + ':' + m;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Modal
+  function openModal(id) {
+    document.getElementById(id).classList.add('active');
+  }
+  function closeModal(el) {
+    el.classList.remove('active');
+  }
+
+  // Start button (Easter egg)
+  document.getElementById('start-btn').addEventListener('click', function() {
+    alert('Abdullah Akram Portfolio v1.0\n\nCEH Trainee | SOC Analyst | Developer\n\nReady to secure the world! 🛡️');
+  });
+
+  // Keyboard: Escape closes modal
+  document.addEventListener('keydown', function(e) {
+    if(e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+    }
+  });
+
+  // Animate progress bars on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.querySelectorAll('.progress-bar-fill').forEach(bar => {
+          const w = bar.style.width;
+          bar.style.width = '0%';
+          setTimeout(() => { bar.style.width = w; }, 100);
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('#skills').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
